@@ -5,13 +5,6 @@ let productos = []
 let messages = [];
 
 
-const updateMessages = (data) => {
-    messageToHtml = ''
-    data.forEach(i => {
-        messageToHtml = messageToHtml + `<li><span class="correo"><b>${i.email}</b></span> <span class="timeStamp">[${i.timeStamp}]</span>: <span class="message">${i.message}</span></li>`
-    })
-    document.querySelector("#messagesList").innerHTML = messageToHtml
-}
 
 
 
@@ -22,6 +15,19 @@ const updateProductos = (data) => {
     });
     document.querySelector(".tableBody").innerHTML = productosToHtml
 }
+
+
+const updateMessages = (data) => {
+    messageToHtml = ''
+    data.forEach(i => {
+        messageToHtml = messageToHtml + `<li><span class="correo"><b>${i.email}</b></span> <span class="timeStamp">[${i.timeStamp}]</span>: <span class="message">${i.message}</span></li>`
+    })
+    document.querySelector("#messagesList").innerHTML = messageToHtml
+}
+
+
+
+
 
 socket.on('update data', data => {
     console.log(data.productos)
@@ -40,13 +46,13 @@ const sendNewProduct = () => {
         alert("complete con  datos")
         return
     }
-    const nuevoProducto = {
+    const newProduct = {
         title, thumbnail, price
     }
-    socket.emit('nuevo producto servidor', nuevoProducto)
-    document.querySelector("#title").value = ''
-    document.querySelector("#thumbnail").value = ''
-    document.querySelector("#price").value = ''
+    socket.emit('nuevo producto servidor', newProduct)
+    document.querySelector("#title").value = " "
+    document.querySelector("#thumbnail").value = " "
+    document.querySelector("#price").value = " "
 
 }
 socket.on('nuevo producto servidor', data => {
@@ -56,6 +62,9 @@ socket.on('update mensajes', data => {
     messages = data;
     updateMessages(messages)
 })
+
+
+
 const sendNewMessage = () => {
 
     const timeStamp = new Date().toLocaleString()

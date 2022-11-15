@@ -43,7 +43,7 @@ router.post('/', async (req, res, next) => {
     const { body } = req
     try {
         await Stock.save(body)
-        const products = await Stock.getAll()
+        const productos = await Stock.getAll()
         const newProduct = productos[(productos.length) - 1]
         res.status(200).json(newProduct)
     } catch (error) {
