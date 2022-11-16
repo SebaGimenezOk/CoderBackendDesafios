@@ -1,7 +1,8 @@
 const express = require('express')
 require('dotenv').config();
-const indexRouter = require('./SRC/routes/index')
+const indexRouter = require('./src/routes/index')
 const Stock = require('./hojaExtra');
+const Contenedor=require('./desafio2')
 const app = express();
 const fs = require('fs')
 
@@ -26,19 +27,19 @@ app.get('/', (_req, res) => {
 })
 
 
-// app.get('/productos', async (_req, res) => {
-//     const productos = await Stock.getAll()
-//     res.render('pages/hojaProductos', { productos: productos })
-// })
-// app.get('/hojaProductos', (_req, res) => {
-//     res.redirect('/')
-// })
+app.get('/productos', async (_req, res) => {
+    const productos = await Stock.getAll()
+    res.render('pages/hojaProductos', { productos: productos })
+})
+app.get('/hojaProductos', (_req, res) => {
+    res.redirect('/')
+})
 
-// app.post('/productos', (req, res) => {
-//     const { title, thumbnail, price } = req.body
-//     Stock.save({ title, thumbnail, price })
-//     res.redirect('/')
-// })
+app.post('/productos', (req, res) => {
+    const { title, thumbnail, price } = req.body
+    Stock.save({ title, thumbnail, price })
+    res.redirect('/')
+})
 
 app.get('/health', (_req, res) => {
     res.status(200).json({
@@ -51,19 +52,21 @@ const messages = []
 
 
 io.on('connection', async (socket) => {
-    console.info("nuevo ususario conectado")
-    socket.on('nuevo mensaje servidor', data => {
-        messages.push(data)
-        io.sockets.emit('nuevo mensaje servidor', data)
-    })
     const productos = await Stock.getAll()
     socket.emit('update data', { productos, messages })
     socket.on('nuevo mensaje servidor', async (data) => {
     
         await Stock.save(data)
-        nuevosProductos = await Stock.getAll()
-        io.sockets.emit('nuevo mensaje servidor', nuevosProductos)
+        nuevoProducto = await Stock.getAll()
+        io.sockets.emit('nuevo mensaje servidor', nuevoProducto)
     })
+
+    console.info("nuevo ususario conectado")
+    socket.on('nuevo mensaje servidor', data => {
+        messages.push(data)
+        io.sockets.emit('nuevo mensaje servidor', data)
+    })
+  
 })
 
 

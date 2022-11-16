@@ -5,15 +5,13 @@ let productos = []
 let messages = [];
 
 
-
-
-
 const updateProductos = (data) => {
-    productosToHtml = ''
+    productosDelHtml = ''
+    
     data.forEach(i => {
-        productosToHtml = productosToHtml + `<tr><td>${i.id}</td><td>${i.title}</td><td>${i.price}</td></tr>`
+        productosDelHtml = productosDelHtml + `<tr><td>${i.id}</td><td>${i.title}</td><td>${i.price}</td></tr>`
     });
-    document.querySelector(".tableBody").innerHTML = productosToHtml
+    document.querySelector(".tableBody").innerHTML = productosDelHtml
 }
 
 
@@ -30,7 +28,7 @@ const updateMessages = (data) => {
 
 
 socket.on('update data', data => {
-    console.log(data.productos)
+   
     productos = data.productos
     messages = data.messages
     updateProductos(productos)
@@ -46,13 +44,13 @@ const sendNewProduct = () => {
         alert("complete con  datos")
         return
     }
-    const newProduct = {
+    const nuevoProducto = {
         title, thumbnail, price
     }
-    socket.emit('nuevo producto servidor', newProduct)
-    document.querySelector("#title").value = " "
-    document.querySelector("#thumbnail").value = " "
-    document.querySelector("#price").value = " "
+    socket.emit('nuevo producto servidor', nuevoProducto)
+    document.querySelector("#title").value = '';
+    document.querySelector("#thumbnail").value = '';
+    document.querySelector("#price").value = '';
 
 }
 socket.on('nuevo producto servidor', data => {

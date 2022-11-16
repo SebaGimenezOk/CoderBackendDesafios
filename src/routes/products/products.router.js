@@ -1,6 +1,9 @@
 const express = require('express')
 const router = express.Router();
 const Stock = require('../../../hojaExtra')
+const Contenedor = require('../../../desafio2')
+const fs = require('fs')
+
 
 router.get('/', async (_req, res) => {
     try {
@@ -46,7 +49,8 @@ router.post('/', async (req, res, next) => {
         const productos = await Stock.getAll()
         const newProduct = productos[(productos.length) - 1]
         res.status(200).json(newProduct)
-    } catch (error) {
+    }
+    catch (error) {
         next(err)
     }
 })
@@ -75,4 +79,4 @@ router.delete('/:id', async (req, res) => {
     }
 })
 
-module.exports=router
+module.exports = router
