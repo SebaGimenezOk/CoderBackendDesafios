@@ -4,16 +4,39 @@ const socket = io();
 let productos = []
 let messages = [];
 
+const formProd = document.getElementById('form')
+
+formProd.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const title = document.getElementById('title').value
+    const price = document.getElementById('price').value
+    const thumbnail = document.getElementById('thumbnail').value
+
+    const newProducto = {
+        title,
+        price,
+        thumbnail
+    }
+    socket.emit('nuevo_producto', newProducto)
+
+    e.target.reset();
+})
+
 
 const updateProductos = (data) => {
-    productosDelHtml = ''
-    
+    let productosDelHtml = ''
+
     data.forEach(i => {
         productosDelHtml = productosDelHtml + `<tr><td>${i.id}</td><td>${i.title}</td><td>${i.price}</td></tr>`
     });
     document.querySelector(".tableBody").innerHTML = productosDelHtml
 }
 
+
+
+socket.on('update_products', (productos) => {
+    updateProductos(productos)
+})
 
 const updateMessages = (data) => {
     messageToHtml = ''
@@ -28,7 +51,6 @@ const updateMessages = (data) => {
 
 
 socket.on('update data', data => {
-   
     productos = data.productos
     messages = data.messages
     updateProductos(productos)
@@ -85,3 +107,6 @@ socket.on('nuevo mensaje servidor', data => {
     messages.push(data)
     updateMessages(messages)
 })
+
+
+

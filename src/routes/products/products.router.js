@@ -1,7 +1,6 @@
 const express = require('express')
 const router = express.Router();
-const Stock = require('../../../hojaExtra')
-const Contenedor = require('../../../desafio2')
+const Stock = require('../../../Stock')
 const fs = require('fs')
 
 

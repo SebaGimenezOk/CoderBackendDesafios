@@ -2,7 +2,7 @@ const fs = require('fs')
 const express = require('express');
 const productosRouter= require('./products/products.router')
 const router = express.Router()
-// const Contenedor=require('../../desafio2')
+const Contenedor=require('../../desafio2')
 
 router.get('/health', (_req, res) => {
     res.status(200).json({
