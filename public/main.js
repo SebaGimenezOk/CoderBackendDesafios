@@ -32,8 +32,6 @@ const updateProductos = (data) => {
     document.querySelector(".tableBody").innerHTML = productosDelHtml
 }
 
-
-
 socket.on('update_products', (productos) => {
     updateProductos(productos)
 })
@@ -45,9 +43,6 @@ const updateMessages = (data) => {
     })
     document.querySelector("#messagesList").innerHTML = messageToHtml
 }
-
-
-
 
 
 socket.on('update data', data => {
