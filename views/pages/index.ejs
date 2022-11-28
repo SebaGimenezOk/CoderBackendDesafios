@@ -63,9 +63,12 @@
   <div class="chatBox container mt-4 mb-5">
 
     <h1>Chat</h1>
-    <input type="email" placeholder='Email' id='userEmail' required />
-    <input type="text" placeholder="mensaje" id="mensaje">
-    <button type="button" onclick="sendNewMessage()">Enviar</button>
+    <div class="tableBody">
+      <input type="email" placeholder='Email' id='userEmail' required />
+      <input type="text" placeholder="mensaje" id="mensaje">
+      <button type="button" onclick="sendNewMessage()">Enviar</button>
+    </div>
+
     <ul id="messagesList"></ul>
   </div>
   <div class="col col-3 mt-5 mb-5"></div>

@@ -2,6 +2,10 @@ const express = require('express')
 const router = express.Router();
 const Stock = require('../../../Stock')
 const fs = require('fs')
+const _ = require('lodash');
+const Products = require('../../services/database/products/products.knex')
+const productService = new Products();
+
 
 
 router.get('/', async (_req, res) => {
@@ -76,6 +80,45 @@ router.delete('/:id', async (req, res) => {
             error: "object no found"
         })
     }
+    router.post('/', async (req, res, next) => {
+        const { body } = req;
+        if (_.isNil(body)) {
+            return res.status(400).json({
+                success: false,
+                message: 'bad request'
+            })
+        }
+        try {
+            const data = await productService.createProduct(body);
+            if (!data.success) {
+                return res.status(400).json(data)
+            }
+            res.status(200).json(data);
+        } catch (err) {
+            next(err);
+        }
+    })
+    
+    router.get('/:productCode', async (req, res) => {
+        const { productCode } = req.params;
+        if (_.isNil(productCode)) {
+            return res.status(400).json({
+                succes: false,
+                message: 'Bad request!'
+            });
+        }
+        try {
+            const data = await productService.getProduct(productCode);
+            if (!data.success) {
+                return res.status(400).json(data)
+            }
+            res.status(200).json(data);
+        } catch (err) {
+            next(err);
+        }
+    })
+    
+
 })
 
 module.exports = router
